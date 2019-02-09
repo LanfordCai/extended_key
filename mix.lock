@@ -1,0 +1,13 @@
+%{
+  "area58check": {:hex, :area58check, "0.1.1", "7d8c6b2c25ed8fcb037ddc5e358a7d7be6ad47e81ac8dc2ae1fb1c04a33cb336", [:mix], [], "hexpm"},
+  "basefiftyeight": {:hex, :basefiftyeight, "0.1.0", "3d48544743bf9aab7ab02aed803ac42af77acf268c7d8c71d4f39e7fa85ee8d3", [:mix], [], "hexpm"},
+  "dialyxir": {:hex, :dialyxir, "1.0.0-rc.4", "71b42f5ee1b7628f3e3a6565f4617dfb02d127a0499ab3e72750455e986df001", [:mix], [{:erlex, "~> 0.1", [hex: :erlex, repo: "hexpm", optional: false]}], "hexpm"},
+  "earmark": {:hex, :earmark, "1.3.1", "73812f447f7a42358d3ba79283cfa3075a7580a3a2ed457616d6517ac3738cb9", [:mix], [], "hexpm"},
+  "erlex": {:hex, :erlex, "0.2.0", "80349ebd58553dbd63489937380bfa7d906be3266b91bbd9d2bd6b71f1e8c07d", [:mix], [], "hexpm"},
+  "ex_doc": {:hex, :ex_doc, "0.19.3", "3c7b0f02851f5fc13b040e8e925051452e41248f685e40250d7e40b07b9f8c10", [:mix], [{:earmark, "~> 1.2", [hex: :earmark, repo: "hexpm", optional: false]}, {:makeup_elixir, "~> 0.10", [hex: :makeup_elixir, repo: "hexpm", optional: false]}], "hexpm"},
+  "libsecp256k1": {:hex, :libsecp256k1, "0.1.10", "d27495e2b9851c7765129b76c53b60f5e275bd6ff68292c50536bf6b8d091a4d", [:make, :mix], [{:mix_erlang_tasks, "0.1.0", [hex: :mix_erlang_tasks, repo: "hexpm", optional: false]}], "hexpm"},
+  "makeup": {:hex, :makeup, "0.8.0", "9cf32aea71c7fe0a4b2e9246c2c4978f9070257e5c9ce6d4a28ec450a839b55f", [:mix], [{:nimble_parsec, "~> 0.5.0", [hex: :nimble_parsec, repo: "hexpm", optional: false]}], "hexpm"},
+  "makeup_elixir": {:hex, :makeup_elixir, "0.13.0", "be7a477997dcac2e48a9d695ec730b2d22418292675c75aa2d34ba0909dcdeda", [:mix], [{:makeup, "~> 0.8", [hex: :makeup, repo: "hexpm", optional: false]}], "hexpm"},
+  "mix_erlang_tasks": {:hex, :mix_erlang_tasks, "0.1.0", "36819fec60b80689eb1380938675af215565a89320a9e29c72c70d97512e4649", [:mix], [], "hexpm"},
+  "nimble_parsec": {:hex, :nimble_parsec, "0.5.0", "90e2eca3d0266e5c53f8fbe0079694740b9c91b6747f2b7e3c5d21966bba8300", [:mix], [], "hexpm"},
+}
