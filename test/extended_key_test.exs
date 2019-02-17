@@ -17,6 +17,10 @@ defmodule ExtendedKeyTest do
       path = "m"
 
       {privkey, pubkey} = derive_key_pair_from_seed(@seed, :mainnet, path)
+
+      check_key_properties(privkey, false, false, :mainnet)
+      check_key_properties(pubkey, true, false, :mainnet)
+
       assert privkey === expect_privkey
       assert pubkey === expect_pubkey
     end
@@ -30,6 +34,10 @@ defmodule ExtendedKeyTest do
 
       path = "m/0H"
       {privkey, pubkey} = derive_key_pair_from_seed(@seed, :mainnet, path)
+
+      check_key_properties(privkey, false, true, :mainnet)
+      check_key_properties(pubkey, true, true, :mainnet)
+
       assert privkey === expect_privkey
       assert pubkey === expect_pubkey
     end
@@ -43,6 +51,10 @@ defmodule ExtendedKeyTest do
 
       path = "m/0H/1"
       {privkey, pubkey} = derive_key_pair_from_seed(@seed, :mainnet, path)
+
+      check_key_properties(privkey, false, false, :mainnet)
+      check_key_properties(pubkey, true, false, :mainnet)
+
       assert privkey === expect_privkey
       assert pubkey === expect_pubkey
     end
@@ -56,6 +68,10 @@ defmodule ExtendedKeyTest do
 
       path = "m/0H/1/2H"
       {privkey, pubkey} = derive_key_pair_from_seed(@seed, :mainnet, path)
+
+      check_key_properties(privkey, false, true, :mainnet)
+      check_key_properties(pubkey, true, true, :mainnet)
+
       assert privkey === expect_privkey
       assert pubkey === expect_pubkey
     end
@@ -69,6 +85,10 @@ defmodule ExtendedKeyTest do
 
       path = "m/0H/1/2H/2"
       {privkey, pubkey} = derive_key_pair_from_seed(@seed, :mainnet, path)
+
+      check_key_properties(privkey, false, false, :mainnet)
+      check_key_properties(pubkey, true, false, :mainnet)
+
       assert privkey === expect_privkey
       assert pubkey === expect_pubkey
     end
@@ -82,6 +102,10 @@ defmodule ExtendedKeyTest do
 
       path = "m/0H/1/2H/2/1000000000"
       {privkey, pubkey} = derive_key_pair_from_seed(@seed, :mainnet, path)
+
+      check_key_properties(privkey, false, false, :mainnet)
+      check_key_properties(pubkey, true, false, :mainnet)
+
       assert privkey === expect_privkey
       assert pubkey === expect_pubkey
     end
@@ -102,6 +126,10 @@ defmodule ExtendedKeyTest do
 
       path = "m"
       {privkey, pubkey} = derive_key_pair_from_seed(@seed, :mainnet, path)
+
+      check_key_properties(privkey, false, false, :mainnet)
+      check_key_properties(pubkey, true, false, :mainnet)
+
       assert privkey === expect_privkey
       assert pubkey === expect_pubkey
     end
@@ -115,6 +143,10 @@ defmodule ExtendedKeyTest do
 
       path = "m/0"
       {privkey, pubkey} = derive_key_pair_from_seed(@seed, :mainnet, path)
+
+      check_key_properties(privkey, false, false, :mainnet)
+      check_key_properties(pubkey, true, false, :mainnet)
+
       assert privkey === expect_privkey
       assert pubkey === expect_pubkey
     end
@@ -128,6 +160,10 @@ defmodule ExtendedKeyTest do
 
       path = "m/0/2147483647H"
       {privkey, pubkey} = derive_key_pair_from_seed(@seed, :mainnet, path)
+
+      check_key_properties(privkey, false, true, :mainnet)
+      check_key_properties(pubkey, true, true, :mainnet)
+
       assert privkey === expect_privkey
       assert pubkey === expect_pubkey
     end
@@ -141,6 +177,10 @@ defmodule ExtendedKeyTest do
 
       path = "m/0/2147483647H/1"
       {privkey, pubkey} = derive_key_pair_from_seed(@seed, :mainnet, path)
+
+      check_key_properties(privkey, false, false, :mainnet)
+      check_key_properties(pubkey, true, false, :mainnet)
+
       assert privkey === expect_privkey
       assert pubkey === expect_pubkey
     end
@@ -154,6 +194,10 @@ defmodule ExtendedKeyTest do
 
       path = "m/0/2147483647H/1/2147483646H"
       {privkey, pubkey} = derive_key_pair_from_seed(@seed, :mainnet, path)
+
+      check_key_properties(privkey, false, true, :mainnet)
+      check_key_properties(pubkey, true, true, :mainnet)
+
       assert privkey === expect_privkey
       assert pubkey === expect_pubkey
     end
@@ -167,6 +211,10 @@ defmodule ExtendedKeyTest do
 
       path = "m/0/2147483647H/1/2147483646H/2"
       {privkey, pubkey} = derive_key_pair_from_seed(@seed, :mainnet, path)
+
+      check_key_properties(privkey, false, false, :mainnet)
+      check_key_properties(pubkey, true, false, :mainnet)
+
       assert privkey === expect_privkey
       assert pubkey === expect_pubkey
     end
@@ -187,6 +235,10 @@ defmodule ExtendedKeyTest do
 
       path = "m"
       {privkey, pubkey} = derive_key_pair_from_seed(@seed, :mainnet, path)
+
+      check_key_properties(privkey, false, false, :mainnet)
+      check_key_properties(pubkey, true, false, :mainnet)
+
       assert privkey === expect_privkey
       assert pubkey === expect_pubkey
     end
@@ -200,6 +252,10 @@ defmodule ExtendedKeyTest do
 
       path = "m/0H"
       {privkey, pubkey} = derive_key_pair_from_seed(@seed, :mainnet, path)
+
+      check_key_properties(privkey, false, true, :mainnet)
+      check_key_properties(pubkey, true, true, :mainnet)
+
       assert privkey === expect_privkey
       assert pubkey === expect_pubkey
     end
@@ -218,6 +274,10 @@ defmodule ExtendedKeyTest do
       path = "m"
 
       {privkey, pubkey} = derive_key_pair_from_seed(@seed, :testnet, path)
+
+      check_key_properties(privkey, false, false, :testnet)
+      check_key_properties(pubkey, true, false, :testnet)
+      
       assert privkey === expect_privkey
       assert pubkey === expect_pubkey
     end
@@ -231,6 +291,10 @@ defmodule ExtendedKeyTest do
 
       path = "m/0H"
       {privkey, pubkey} = derive_key_pair_from_seed(@seed, :testnet, path)
+
+      check_key_properties(privkey, false, true, :testnet)
+      check_key_properties(pubkey, true, true, :testnet)
+
       assert privkey === expect_privkey
       assert pubkey === expect_pubkey
     end
@@ -244,6 +308,10 @@ defmodule ExtendedKeyTest do
 
       path = "m/0H/1"
       {privkey, pubkey} = derive_key_pair_from_seed(@seed, :testnet, path)
+
+      check_key_properties(privkey, false, false, :testnet)
+      check_key_properties(pubkey, true, false, :testnet)
+
       assert privkey === expect_privkey
       assert pubkey === expect_pubkey
     end
@@ -257,6 +325,10 @@ defmodule ExtendedKeyTest do
 
       path = "m/0H/1/2H"
       {privkey, pubkey} = derive_key_pair_from_seed(@seed, :testnet, path)
+
+      check_key_properties(privkey, false, true, :testnet)
+      check_key_properties(pubkey, true, true, :testnet)
+
       assert privkey === expect_privkey
       assert pubkey === expect_pubkey
     end
@@ -270,6 +342,10 @@ defmodule ExtendedKeyTest do
 
       path = "m/0H/1/2H/2"
       {privkey, pubkey} = derive_key_pair_from_seed(@seed, :testnet, path)
+
+      check_key_properties(privkey, false, false, :testnet)
+      check_key_properties(pubkey, true, false, :testnet)
+
       assert privkey === expect_privkey
       assert pubkey === expect_pubkey
     end
@@ -283,6 +359,10 @@ defmodule ExtendedKeyTest do
 
       path = "m/0H/1/2H/2/1000000000"
       {privkey, pubkey} = derive_key_pair_from_seed(@seed, :testnet, path)
+
+      check_key_properties(privkey, false, false, :testnet)
+      check_key_properties(pubkey, true, false, :testnet)
+
       assert privkey === expect_privkey
       assert pubkey === expect_pubkey
     end
@@ -566,6 +646,15 @@ defmodule ExtendedKeyTest do
 
       assert pubkey === expect_pubkey
     end
+  end
+
+  defp check_key_properties(keystring, xpub?, hardened?, network) do
+    key = ExtendedKey.from_string(keystring)
+    assert ExtendedKey.public?(key) == xpub?
+    assert ExtendedKey.private?(key) == !xpub?
+    assert ExtendedKey.hardened?(key) == hardened?
+    assert ExtendedKey.normal?(key) == !hardened?
+    assert ExtendedKey.network(key) == network
   end
 
   defp derive_key_from_keystring(keystring, path) when is_binary(path) do

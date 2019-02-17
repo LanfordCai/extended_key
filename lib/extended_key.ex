@@ -31,13 +31,13 @@ defmodule ExtendedKey do
   defguardp is_normal(index) when index >= 0 and index < @hardened_key_start
 
   @doc ~S"""
-  Generate HD wallet seed with specified byte size  
+  Generates HD wallet seed with specified byte size  
   """
   @spec seed(byte_size :: integer()) :: binary()
   def seed(byte_size \\ 32), do: :crypto.strong_rand_bytes(byte_size)
 
   @doc ~S"""
-  Generate private master extended key with given seed and network
+  Generates private master extended key with given seed and network
 
   ## Examples
 
@@ -76,7 +76,7 @@ defmodule ExtendedKey do
   def master(_seed, _network), do: {:error, :invalid_seed}
 
   @doc ~S"""
-  Derive child extended key with given key path
+  Derives child extended key with given key path
 
   ## Examples
 
@@ -98,7 +98,7 @@ defmodule ExtendedKey do
         version: <<4, 136, 173, 228>>
       }
 
-    Derive public extended key
+    Derives public extended key
 
       iex> seed = Base.decode16!("81D0E7581BF0C55B2941B2295EB4FD1F9C52D080F8D58A3DB634DE80200BA238")
       iex> master = ExtendedKey.master(seed)
@@ -138,7 +138,7 @@ defmodule ExtendedKey do
   end
 
   @doc ~S"""
-  Derive a child extended key with a given index
+  Derives a child extended key with a given index
 
   ## Examples
 
@@ -180,7 +180,7 @@ defmodule ExtendedKey do
   def derive_child(%__MODULE__{}, _child_index), do: {:error, :invalid_depth}
 
   @doc ~S"""
-  Generate a new extended public key from extended private key. If the input key is
+  Generates a new extended public key from extended private key. If the input key is
   already an extended public key, the key will be returned unaltered
 
   ## Examples
@@ -203,16 +203,16 @@ defmodule ExtendedKey do
 
   """
   @spec neuter(key :: key()) :: key()
-  def neuter(%__MODULE__{version: version, key: key} = extkey) when is_xprv(version) do
-    extkey
-    |> Map.put(:version, version(:xpub, network(version)))
+  def neuter(%__MODULE__{version: version, key: key} = extended_key) when is_xprv(version) do
+    extended_key
+    |> Map.put(:version, version(:xpub, network(extended_key)))
     |> Map.put(:key, Secp256k1.derive_pubkey(key, :compressed))
   end
 
   def neuter(%__MODULE__{version: version} = extkey) when is_xpub(version), do: extkey
 
   @doc ~S"""
-  Encode an extended key to string
+  Encodes an extended key to string
 
   ## Examples
 
@@ -225,14 +225,14 @@ defmodule ExtendedKey do
   @spec to_string(key :: key()) :: String.t()
   def to_string({:error, error}), do: {:error, error}
 
-  def to_string(%__MODULE__{} = key) do
-    key
+  def to_string(%__MODULE__{} = extended_key) do
+    extended_key
     |> serialize()
     |> B58.version_encode58_check!()
   end
 
   @doc ~S"""
-  Generate ExtendedKey instance from given key string
+  Generates ExtendedKey instance from given key string
 
   ## Examples
 
@@ -257,6 +257,43 @@ defmodule ExtendedKey do
     |> B58.version_decode58_check!()
     |> deserialize()
   end
+
+  @doc """
+  Checks if the key is xpub
+  """
+  @spec public?(key :: key()) :: boolean()
+  def public?(%__MODULE__{version: version}) when is_xpub(version), do: true
+  def public?(%__MODULE__{}), do: false
+
+  @doc """
+  Checks if the key is xprv
+  """
+  @spec private?(key :: key()) :: boolean()
+  def private?(%__MODULE__{version: version}) when is_xprv(version), do: true
+  def private?(%__MODULE__{}), do: false
+
+  @doc """
+  Checks if the key is hardened key  
+  """
+  @spec hardened?(key :: key()) :: boolean()
+  def hardened?(%__MODULE__{child_num: child_num}) when is_hardened(child_num), do: true
+  def hardened?(%__MODULE__{}), do: false
+
+  @doc """
+  Checks if the key is normal key
+  """
+  @spec normal?(key :: key()) :: boolean()
+  def normal?(%__MODULE__{child_num: child_num}) when is_normal(child_num), do: true
+  def normal?(%__MODULE__{}), do: false
+
+  @doc """
+  Returns the network of the key
+  """
+  @spec network(key :: key()) :: :mainnet | :testnet
+  def network(%__MODULE__{version: version}) when version in [@mainnet_xprv_version, @mainnet_xpub_version],
+    do: :mainnet
+  def network(%__MODULE__{version: version}) when version in [@testnet_xprv_version, @testnet_xpub_version],
+    do: :testnet
 
   defp deserialize(
          <<version::bytes-size(4), depth::8, fingerprint::bytes-size(4), child_num::32,
@@ -392,12 +429,6 @@ defmodule ExtendedKey do
     |> derive_child(child_index)
     |> do_derive_chain(rest)
   end
-
-  defp network(version) when version in [@mainnet_xprv_version, @mainnet_xpub_version],
-    do: :mainnet
-
-  defp network(version) when version in [@testnet_xprv_version, @testnet_xpub_version],
-    do: :testnet
 
   defp version(:xprv, :mainnet), do: @mainnet_xprv_version
   defp version(:xpub, :mainnet), do: @mainnet_xpub_version
