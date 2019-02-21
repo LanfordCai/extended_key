@@ -660,12 +660,12 @@ defmodule ExtendedKeyTest do
   defp derive_key_from_keystring(keystring, path) when is_binary(path) do
     keystring
     |> ExtendedKey.from_string()
-    |> ExtendedKey.derive_chain(path)
+    |> ExtendedKey.derive_path(path)
     |> ExtendedKey.to_string()
   end
 
   defp derive_key_pair_from_seed(seed, network, path) when is_binary(path) do
-    key = seed |> ExtendedKey.master(network) |> ExtendedKey.derive_chain(path)
+    key = seed |> ExtendedKey.master(network) |> ExtendedKey.derive_path(path)
 
     case Keypath.to_list(path) do
       {:xprv, _} ->

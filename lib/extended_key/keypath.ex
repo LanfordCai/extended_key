@@ -15,7 +15,7 @@ defmodule ExtendedKey.Keypath do
   end
 
   defp convert_to_integer(item) do
-    if String.ends_with?(item, ["H", "\'"]) do
+    if String.ends_with?(item, ["h", "H", "\'"]) do
       item
       |> String.split_at(-1)
       |> elem(0)

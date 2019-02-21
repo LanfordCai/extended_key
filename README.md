@@ -9,7 +9,7 @@ This package can be installed by adding `extended_key` to your list of dependenc
 ```elixir
 def deps do
   [
-    {:extended_key, "~> 0.2.0"}
+    {:extended_key, "~> 0.3.0"}
   ]
 end
 ```

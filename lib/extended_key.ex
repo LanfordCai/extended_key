@@ -1,6 +1,6 @@
 defmodule ExtendedKey do
   @moduledoc """
-  Documentation for ExtendedKey.
+  BIP32 implementation
   """
 
   alias ExtendedKey.{Crypto, Binary, Keypath}
@@ -76,7 +76,8 @@ defmodule ExtendedKey do
   def master(_seed, _network), do: {:error, :invalid_seed}
 
   @doc ~S"""
-  Derives child extended key with given key path
+  Derives child extended key with given key path, 
+  hardened can be represented with `H`, `h` or `'`, e.g. `m/0H/1/2H/2/1000000000`
 
   ## Examples
 
@@ -84,7 +85,7 @@ defmodule ExtendedKey do
     
       iex> seed = Base.decode16!("81D0E7581BF0C55B2941B2295EB4FD1F9C52D080F8D58A3DB634DE80200BA238")
       iex> master = ExtendedKey.master(seed)
-      iex> ExtendedKey.derive_chain(master, "m/0")
+      iex> ExtendedKey.derive_path(master, "m/0")
       %ExtendedKey{
         chain_code: <<81, 134, 58, 230, 254, 116, 95, 133, 120,
           201, 148, 202, 21, 162, 172, 251, 172, 207, 11, 123, 23,
@@ -102,7 +103,7 @@ defmodule ExtendedKey do
 
       iex> seed = Base.decode16!("81D0E7581BF0C55B2941B2295EB4FD1F9C52D080F8D58A3DB634DE80200BA238")
       iex> master = ExtendedKey.master(seed)
-      iex> ExtendedKey.derive_chain(master, "M/0")
+      iex> ExtendedKey.derive_path(master, "M/0")
       %ExtendedKey{
         chain_code: <<81, 134, 58, 230, 254, 116, 95, 133, 120,
           201, 148, 202, 21, 162, 172, 251, 172, 207, 11, 123, 23,
@@ -117,23 +118,23 @@ defmodule ExtendedKey do
       }
 
   """
-  @spec derive_chain(master :: key(), path :: String.t()) :: key() | {:error, term()}
-  def derive_chain(%__MODULE__{version: version} = master, path) when is_xprv(version) do
+  @spec derive_path(master :: key(), path :: String.t()) :: key() | {:error, term()}
+  def derive_path(%__MODULE__{version: version} = master, path) when is_xprv(version) do
     case Keypath.to_list(path) do
       {:xprv, keypath} ->
-        do_derive_chain(master, keypath)
+        do_derive_path(master, keypath)
 
       {:xpub, keypath} ->
         master
-        |> do_derive_chain(keypath)
+        |> do_derive_path(keypath)
         |> neuter()
     end
   end
 
-  def derive_chain(%__MODULE__{version: version} = master, path) when is_xpub(version) do
+  def derive_path(%__MODULE__{version: version} = master, path) when is_xpub(version) do
     case Keypath.to_list(path) do
       {:xprv, _} -> {:error, :parent_pubkey_to_child_privkey}
-      {:xpub, keypath} -> do_derive_chain(master, keypath)
+      {:xpub, keypath} -> do_derive_path(master, keypath)
     end
   end
 
@@ -421,13 +422,13 @@ defmodule ExtendedKey do
     end
   end
 
-  defp do_derive_chain({:error, error}, _), do: {:error, error}
-  defp do_derive_chain(key, []), do: key
+  defp do_derive_path({:error, error}, _), do: {:error, error}
+  defp do_derive_path(key, []), do: key
 
-  defp do_derive_chain(key, [child_index | rest]) do
+  defp do_derive_path(key, [child_index | rest]) do
     key
     |> derive_child(child_index)
-    |> do_derive_chain(rest)
+    |> do_derive_path(rest)
   end
 
   defp version(:xprv, :mainnet), do: @mainnet_xprv_version
