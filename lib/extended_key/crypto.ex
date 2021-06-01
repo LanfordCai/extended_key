@@ -9,7 +9,11 @@ defmodule ExtendedKey.Crypto do
 
   def sha512(data), do: :crypto.hash(:sha512, data)
 
-  def hmac_sha512(key, data), do: :crypto.hmac(:sha512, key, data)
+  if Code.ensure_loaded?(:crypto) and function_exported?(:crypto, :mac, 4) do
+    def hmac_sha512(key, data), do: :crypto.mac(:hmac, :sha512, key, data)
+  else
+    def hmac_sha512(key, data), do: :crypto.hmac(:sha512, key, data)
+  end
 
   defmodule Secp256k1 do
     @moduledoc false
